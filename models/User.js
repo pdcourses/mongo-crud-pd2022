@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {EMAIL_VS} = require('../utils/validationSchemas.js');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -11,7 +12,10 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: v => EMAIL_VS.isValidSync(v),
+        }
     },
     birthday: {
         type: Date,
