@@ -15,7 +15,7 @@ userRouter
   .delete(userController.deleteUser);
 
 userRouter
-  .route(":/userId" / posts)
+  .route(":/userId/posts")
   .post(userController.createPostByUser)
   .get(userController.getPostsByUser);
 

@@ -5,7 +5,7 @@ const postRouter = Router();
 
 postRouter.route("/").get(postController.getPosts);
 
-userRouter
+postRouter
   .route(":/postId")
   .get(postController.getPostById)
   .patch(postController.updatePost)
