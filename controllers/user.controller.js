@@ -1,4 +1,4 @@
-const {User} = require('./../models');
+const {User, Post} = require('./../models');
 const mongoose = require('mongoose');
 const createHttpError = require('http-errors');
 
@@ -72,5 +72,28 @@ module.exports.deleteUser = async(req, res, next) => {
         next(err);
     }
 }
+
+module.exports.createPostByUser = async(req, res, next) => {
+    const {
+        params: {userId},
+        body
+    } = req;
+    try{
+        const foundUser = await User.findById(userId);
+        if(!foundUser){
+            return next(createHttpError(404, 'User not found'));
+        }
+        const newPostInstance = new Post({
+            ...body,
+            userId: mongoose.Types.ObjectId(userId)
+        });
+        const newPost = await newPostInstance.save();
+        if(!newPost){
+            return next(createHttpError(400, 'Bad request'));
+        }
+        res.status(201).send({data: newPost});
+    } catch(err){next(err);}
+}
+
 
 
