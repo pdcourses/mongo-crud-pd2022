@@ -103,14 +103,14 @@ module.exports.getPostsByUser = async (req, res, next) => {
   } = req;
   try {
     const foundPosts = await User.aggregate()
-        .match({_id: mongoose.Types.ObjectId(userId)})
-        .lookup({
-            from: 'posts',
-            localField: '_id',
-            foreignField: 'userId',
-            as: 'postsForUser'
-        })
-        .project({postsForUser:1 , _id: 0});
+      .match({ _id: mongoose.Types.ObjectId(userId) })
+      .lookup({
+        from: "posts",
+        localField: "_id",
+        foreignField: "userId",
+        as: "postsForUser",
+      });
+    //.project({postsForUser:1 , _id: 0});
     if (!foundPosts.length) {
       return next(createHttpError(404, "Not found"));
     }
